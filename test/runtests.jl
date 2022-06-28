@@ -10,6 +10,8 @@ using Test
 
 
     d = 4
+	nc = 3
+	r = nc-1
     # 1st plane
     μ1 = fill(0.0, d, 3)
     μ1[:,1] = [0.0,1.0, 0.0, 0.0]
@@ -33,8 +35,8 @@ using Test
         X1[:,i] .= μ1[:,l] .+ 0.125*randn(d)
         X2[:,i] .= μ2[:,l] .+ 0.125*randn(d)
     end
-    mstats1 = MultivariateStats.multiclass_lda_stats(3, X1, label)
-    mstats2 = MultivariateStats.multiclass_lda_stats(3, X2, label)
+    mstats1 = MultivariateStats.multiclass_lda_stats(nc, X1, label)
+    mstats2 = MultivariateStats.multiclass_lda_stats(nc, X2, label)
     # concatenate the matrices
     Sw = fill(0.0, 2d,2d)
     Sb = fill(0.0, 2d,2d)
@@ -51,9 +53,14 @@ using Test
     # verify that the two between-scatter matrices are close to orthogonal
     #@show norm(u1[:,1:2]'*u2[:,1:2])
 
-    w, f0, f1 = OrthogonalLDA.orthogonal_lda(Sb, Sw, 2;debug=missing)
-    Y1 = w[1:d, :]'*X1
-    Y2 = w[d+1:2d, :]'*X2
+    # w, f0, f1 = OrthogonalLDA.orthogonal_lda(Sb, Sw, 2;debug=missing)
+    w = OrthogonalLDA.orthogonal_lda(mstats1.Sb, mstats2.Sb, mstats1.Sw, mstats2.Sw, r;debug=missing)
+	w1 = w[:, 1:r]
+	w2 = w[:,r+1:2r]
+	nn = norm(w1'*w2)
+	@test nn < 1e-14
+    Y1 = w1'*X1
+    Y2 = w2'*X2
     μ1p = fill(0.0, 2,3)
     μ1p[:,1] = mean(Y1[:,label.==1],dims=2)
     μ1p[:,2] = mean(Y1[:,label.==2],dims=2)

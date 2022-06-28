@@ -75,32 +75,34 @@ end
 function orthogonal_lda(Sb1::AbstractMatrix{Float64}, Sb2::AbstractMatrix{Float64},Sw1::AbstractMatrix{Float64}, Sw2::AbstractMatrix{Float64}, r::Int64;debug=:default, method=:quasi_newton)
     d1 = size(Sb1,1)
     d2 = size(Sb2,1)
+	d1 == d2 || error("All dimensions must be equal")
+	d = d1
 
 	if !ismissing(debug) && debug == :default
 		debug=[:Iteration, " ", :Cost, "\n", 1, :Stop]
 	end
 
 	function F(::Stiefel, W::Array{Float64,2})
-        W1 = W[1:d1,:]
-        W2 = W[d1+1:d1+d2,:]
+        W1 = W[:,1:r]
+        W2 = W[:,r+1:2r]
         a = -tr(W1'*Sb1*W1)/tr(W1'*Sw1*W1)
         b = -tr(W2'*Sb2*W2)/tr(W2'*Sw2*W2)
         a + b
     end
 
 	function gradF(M, W::Array{Float64,2})
-        W1 = W[1:d1,:]
-        W2 = W[d1+1:d1+d2,:]
+        W1 = W[:,1:r]
+        W2 = W[:,r+1:2r]
 		trb1 = tr(W1'*Sb1*W1)
 		trb2 = tr(W2'*Sb2*W2)
 		trw1 = tr(W1'*Sw1*W1)
 		trw2 = tr(W2'*Sw2*W2)
 		G1 = -((Sb1*W1 + Sb1'*W1).*trw1 - trb1.*(Sw1*W1 + Sw1'*W1))./trw1^2
 		G2 = -((Sb2*W2 + Sb2'*W2).*trw2 - trb2.*(Sw2*W2 + Sw2'*W2))./trw2^2
-        return project(M, W, cat(G1,G2,dims=1))
+        return project(M, W, cat(G1,G2,dims=2))
 	end
 
-	M = Stiefel(d1+d2, r)
+	M = Stiefel(d, 2r)
 	w = random_point(M)
     w = quasi_Newton(
         M,
