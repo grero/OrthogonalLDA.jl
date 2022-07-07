@@ -48,13 +48,9 @@ using Test
     u1,s1,v1 = svd(mstats1.Sb)
     u2,s2,v2 = svd(mstats2.Sb)
     
-    # verify that the two between-scatter matrices are close to orthogonal
-    #@show norm(u1[:,1:2]'*u2[:,1:2])
-
-    # w, f0, f1 = OrthogonalLDA.orthogonal_lda(Sb, Sw, 2;debug=missing)
-    w = OrthogonalLDA.orthogonal_lda(mstats1.Sb, mstats2.Sb, mstats1.Sw, mstats2.Sw, r;debug=missing)
-	w1 = w[:, 1:r]
-	w2 = w[:,r+1:2r]
+	wr = OrthogonalLDA.orthogonal_lda([mstats1.Sb, mstats2.Sb], [mstats1.Sw, mstats2.Sw], [r,r];debug=missing)
+	w1 = wr[:, 1:r]
+	w2 = wr[:,r+1:2r]
 	nn = norm(w1'*w2)
 	@test nn < 1e-14
     Y1 = w1'*X1
