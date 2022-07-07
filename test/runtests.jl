@@ -7,8 +7,6 @@ using Test
 
 
 @testset "Basic" begin
-
-
     d = 4
 	nc = 3
 	r = nc-1
