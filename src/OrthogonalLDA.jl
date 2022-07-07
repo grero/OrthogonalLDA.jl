@@ -56,9 +56,9 @@ function orthogonal_lda(Sb::AbstractMatrix{Float64}, Sw::AbstractMatrix{Float64}
 		    debug=debug,
 		)
 	elseif method == :trust_regions
-		w = trust_regions(M, 
-						  F, 
-						  gradF, 
+		w = trust_regions(M,
+						  F,
+						  gradF,
 						  ApproxHessianFiniteDifference(M, w, gradF),
 						  w;
 						#vector_transport_method=IdentityTransport(),
