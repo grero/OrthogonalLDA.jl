@@ -31,7 +31,7 @@ function orthogonal_lda(Sb::AbstractMatrix{Float64}, Sw::AbstractMatrix{Float64}
 		G = -((Sb*W + Sb'*W).*trw - trb.*(Sw*W + Sw'*W))./trw^2
 		return project(M, W, G)
 	end
-	w = random_point(M)
+	w = rand(M)
 	f0 = F(M, w)
 	if method == :quasi_newton
 		w = quasi_Newton(
@@ -103,7 +103,7 @@ function orthogonal_lda(Sb1::AbstractMatrix{Float64}, Sb2::AbstractMatrix{Float6
 	end
 
 	M = Stiefel(d, 2r)
-	w = random_point(M)
+	w = rand(M)
     w = quasi_Newton(
         M,
         F,
