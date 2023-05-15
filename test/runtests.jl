@@ -35,8 +35,8 @@ using Test
         X1[:,i] .= μ1[:,l] .+ 0.125*randn(d)
         X2[:,i] .= μ2[:,l] .+ 0.125*randn(d)
     end
-    mstats1 = MultivariateStats.multiclass_lda_stats(nc, X1, label)
-    mstats2 = MultivariateStats.multiclass_lda_stats(nc, X2, label)
+    mstats1 = MultivariateStats.multiclass_lda_stats(X1, label)
+    mstats2 = MultivariateStats.multiclass_lda_stats(X2, label)
     # concatenate the matrices
     Sw = fill(0.0, 2d,2d)
     Sb = fill(0.0, 2d,2d)
