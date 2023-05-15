@@ -86,6 +86,7 @@ using Test
     @test p1 > 0.9
     @test p2 > 0.9
 
+    @time w, f0, f1 = OrthogonalLDA.orthogonal_lda(Sb, Sw, 2;debug=missing)
   #μ1pp = w[1:d,:]*μ1p
   #μ2pp = w[d+1:2d,:]*μ2p
 
