@@ -1,7 +1,7 @@
 # Orthogonal LDA
 Implements linear discriminant analysis (LDA) using functionality from the Manopt package.
 
-![example workflow](https://github.com/grero/OrthogonalLDA/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/grero/OrthogonalLDA.jl/actions/workflows/ci.yml/badge.svg)
 
 ## Introduction
 
