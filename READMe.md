@@ -2,6 +2,7 @@
 Implements linear discriminant analysis (LDA) using functionality from the Manopt package.
 
 ![CI](https://github.com/grero/OrthogonalLDA.jl/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/grero/OrthogonalLDA.jl/branch/main/graph/badge.svg?token=GUCgrAheSj)](https://codecov.io/gh/grero/OrthogonalLDA.jl)
 
 ## Introduction
 
