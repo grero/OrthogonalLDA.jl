@@ -22,7 +22,6 @@ using Test
 	W1p = W[:,1:2]
 	W2p = W[:, 3:4]
 	# test that the solutions overlap with the ground truth
-	@show  norm(W1p - W1)
 	u,s,v = svd(W1p'*W1)
     @test all(abs.(s .- 1.0) .< sqrt(eps(Float64)))
 	u,s,v = svd(W2p'*W2)
