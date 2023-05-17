@@ -13,7 +13,7 @@ end
 
 Manifolds._vector_transport_to(M::Stiefel, Y, p, X, q, T::IdentityTransport) = (Y .= project(M, q, X))
 
-function orthogonal_lda(Sb::Vector{T}, Sw::Vector{T}, r::Vector{Int64};debug=:default, method=:quasi_newton, RNG=Random.GlOBAL_RNG) where T <: AbstractMatrix{Float64}
+function orthogonal_lda(Sb::Vector{T}, Sw::Vector{T}, r::Vector{Int64};debug=:default, method=:quasi_newton, RNG=Random.GLOBAL_RNG) where T <: AbstractMatrix{Float64}
 	d = size(first(Sb),1)
 	n = length(Sb)
 	for sb in Sb
